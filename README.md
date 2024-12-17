@@ -1,1 +1,30 @@
-IyBEYWlseSBUZWNoICYgSW5ub3ZhdGlvbiBEaWdlc3QKCkEgY3VyYXRlZCBkYWlseSBkaWdlc3Qgb2YgdGhlIG1vc3QgaW1wb3J0YW50IG5ld3MgaW4gdGVjaG5vbG9neSwgQUksIHNvbG9wcmVuZXVyIG9wcG9ydHVuaXRpZXMsIGFuZCBpbm5vdmF0aW9ucywgd2l0aCBhIHNwZWNpYWwgZm9jdXMgb24gZ2xvYmFsIGltcGFjdCBhbmQgdGhlIEphcGFuZXNlIG1hcmtldC4KCiMjIENhdGVnb3JpZXMKCi0g8J+agCAqKlNvbG9wcmVuZXVyIE9wcG9ydHVuaXRpZXMgJiBUb29scyoqOiBMYXRlc3Qgb3Bwb3J0dW5pdGllcywgc3VjY2VzcyBzdG9yaWVzLCBhbmQgdG9vbHMgZm9yIHNvbG8gZW50cmVwcmVuZXVycwotIPCfkqEgKipBSSAmIFRlY2ggQnJlYWt0aHJvdWdocyoqOiBNYWpvciBkZXZlbG9wbWVudHMgaW4gQUksIHRlY2hub2xvZ3ksIGFuZCBpbm5vdmF0aW9uCi0g8J+MjyAqKkphcGFuLVNwZWNpZmljIFVwZGF0ZXMqKjogS2V5IG5ld3MgYW5kIGRldmVsb3BtZW50cyBmcm9tIHRoZSBKYXBhbmVzZSBtYXJrZXQKLSDwn4ybICoqSW1wYWN0IG9uIEh1bWFuaXR5Kio6IFRlY2hub2xvZ3kgZGV2ZWxvcG1lbnRzIHdpdGggc2lnbmlmaWNhbnQgc29jaWV0YWwgaW1wYWN0CgojIyBEaXJlY3RvcnkgU3RydWN0dXJlCgpgYGAKL2RpZ2VzdHMKICAvMjAyNAogICAgLzEyCiAgICAgIC0gMjAyNC0xMi0xOC5tZCAgIyBEYWlseSBkaWdlc3QgZmlsZXMKYGBgCgojIyBDb250cmlidXRpbmcKCldoaWxlIHRoaXMgaXMgcHJpbWFyaWx5IGEgcGVyc29uYWwgbmV3cyBjdXJhdGlvbiBwcm9qZWN0LCBmZWVsIGZyZWUgdG86Ci0gT3BlbiBpc3N1ZXMgZm9yIHN1Z2dlc3RpbmcgbmV3IG5ld3Mgc291cmNlcwotIFJlY29tbWVuZCBuZXcgY2F0ZWdvcmllcyBvciBpbXByb3ZlbWVudHMKLSBSZXBvcnQgYnJva2VuIGxpbmtzCgojIyBMaWNlbnNlCgpNSVQgTGljZW5zZSAtIEZlZWwgZnJlZSB0byB1c2UgdGhpcyBmb3JtYXQgZm9yIHlvdXIgb3duIG5ld3MgY3VyYXRpb24=
+# Daily Tech & Innovation Digest
+
+A curated daily digest of the most important news in technology, AI, solopreneur opportunities, and innovations, with a special focus on global impact and the Japanese market.
+
+## Categories
+
+- 🚀 **Solopreneur Opportunities & Tools**: Latest opportunities, success stories, and tools for solo entrepreneurs
+- 💡 **AI & Tech Breakthroughs**: Major developments in AI, technology, and innovation
+- 🌏 **Japan-Specific Updates**: Key news and developments from the Japanese market
+- 🌟 **Impact on Humanity**: Technology developments with significant societal impact
+
+## Structure
+Each daily digest includes:
+- Curated news with direct sources
+- Key insights and opportunities
+- Special focus on Japanese market developments
+
+## Repository Organization
+```
+/digests
+    /2024
+        /12
+            2024-12-18.md  # Daily digest files
+```
+
+## Latest Digest
+[Today's Digest](digests/2024/12/2024-12-18.md)
+
+## License
+MIT License - Feel free to use this format for your own news curation
