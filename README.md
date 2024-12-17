@@ -9,22 +9,8 @@ A curated daily digest of the most important news in technology, AI, solopreneur
 - 🌏 **Japan-Specific Updates**: Key news and developments from the Japanese market
 - 🌟 **Impact on Humanity**: Technology developments with significant societal impact
 
-## Structure
-Each daily digest includes:
-- Curated news with direct sources
-- Key insights and opportunities
-- Special focus on Japanese market developments
-
-## Repository Organization
-```
-/digests
-    /2024
-        /12
-            2024-12-18.md  # Daily digest files
-```
-
 ## Latest Digest
-[Today's Digest](digests/2024/12/2024-12-18.md)
+Check the digests folder for daily updates.
 
 ## License
 MIT License - Feel free to use this format for your own news curation
