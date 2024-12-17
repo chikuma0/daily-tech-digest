@@ -1,0 +1,26 @@
+name: Daily Tech Digest Update
+
+on: 
+  schedule:
+    - cron: "0 1 * * *" # Runs at 1:00 UTC daily
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  create-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          
+      - name: Install dependencies
+        run: |
+          npm install axios dotenv
+          
+      - name: Create Daily Digest
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node scripts/create-digest.js
