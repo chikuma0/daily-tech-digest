@@ -1,9 +1,66 @@
 const axios = require('axios');
-const { format } = require('date-fns');
+require('dotenv').config();
 
 const BASE_URL = 'https://api.github.com';
 const OWNER = 'chikuma0';
 const REPO = 'daily-tech-digest';
+
+const gatherNews = async () => {
+  // Implement your news gathering logic here
+  const news = {
+    solopreneur: [],
+    aiTech: [],
+    japan: [],
+    insights: []
+  };
+
+  // Add your API calls here
+
+  return news;
+};
+
+const formatDigest = (news) => {
+  const date = new Date();
+  const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+
+  return `# Daily Tech & Innovation Digest - ${formattedDate}\n\n### 🚀 Solopreneur Opportunities & Tools\n${news.solopreneur.join('\n')}\n\n### 💡 AI & Tech Breakthroughs\n${news.aiTech.join('\n')}\n\n### 🌏 Japan-Specific Updates\n${news.japan.join('\n')}\n\n### 🔍 Key Insights\n${news.insights.join('\n')}`;
+};
+
+const uploadDigest = async (path, content) => {
+  const url = `${BASE_URL}/repos/${OWNER}/${REPO}/contents/${path}`;
+  const data = {
+    message: `Addday's digest`,
+    content: Buffer.from(content).toString('base64')
+  };
+
+  try {
+    await axios.put(url, data, {
+      headers: {
+        Authorization: `token ${process.env.GITHWB_TOKEN}`,
+        Accept: 'application/vnd.github.v3+json'
+      }
+    });
+  } catch (error) {
+    if (error.response?.status === 422) {
+      // File exists, get SHA and update
+      const existingFile = await axios.get(url, {
+        headers: {
+          Authorization: `token ${process.env.GITHUB_TOKEN}`,
+          Accept: 'application/vnd.github.v3+json'
+        }
+      });
+      data.sha = existingFile.data.sha;
+      await axios.put(url, data, {
+        headers: {
+          Authorization: `token ${process.env.GITHUB_TOKEN}`,
+          Accept: 'application/vnd.github.v3+json'
+        }
+      });
+    } else {
+      throw error;
+    }
+  }
+};
 
 const createDigest = async () => {
   try {
