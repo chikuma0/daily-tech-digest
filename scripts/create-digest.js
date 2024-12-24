@@ -1,4 +1,6 @@
 const axios = require('axios');
+const fs = require('fs').promises;
+const path = require('path');
 require('dotenv').config();
 
 const BASE_URL = 'https://api.github.com';
@@ -6,18 +8,27 @@ const OWNER = 'chikuma0';
 const REPO = 'daily-tech-digest';
 
 const gatherNews = async () => {
+  // Example news with emojis and better formatting
   const news = {
     solopreneur: [
-      "* No updates today"
+      "📱 **Product Hunt Highlight**: Daily summary of top-ranked products",
+      "💼 **Indie Hacker Spotlight**: Success stories and learnings",
+      "🛠️ **New Tools**: Latest tools and resources for solo entrepreneurs"
     ],
     aiTech: [
-      "* No updates today"
+      "🤖 **AI Research**: Latest developments in machine learning",
+      "💡 **Tech Innovations**: Breakthrough technologies and applications",
+      "🔬 **Industry Updates**: Major company announcements and releases"
     ],
     japan: [
-      "* No updates today"
+      "🗾 **Market Trends**: Current Japanese market movements",
+      "🌸 **Tech Scene**: Updates from Japanese startups and tech giants",
+      "🚀 **Opportunities**: Market entry and expansion news"
     ],
     insights: [
-      "* No updates today"
+      "📊 **Analysis**: Key trends and patterns in tech",
+      "🎯 **Predictions**: Expert forecasts and market predictions",
+      "💭 **Think Pieces**: In-depth analysis of industry developments"
     ]
   };
   return news;
@@ -27,13 +38,39 @@ const formatDigest = (news) => {
   const date = new Date();
   const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
-  return `# Daily Tech & Innovation Digest - ${formattedDate}\n\n### 🚀 Solopreneur Opportunities & Tools\n${news.solopreneur.join('\n')}\n\n### 💡 AI & Tech Breakthroughs\n${news.aiTech.join('\n')}\n\n### 🌏 Japan-Specific Updates\n${news.japan.join('\n')}\n\n### 🔍 Key Insights\n${news.insights.join('\n')}`;
+  return `# Daily Tech & Innovation Digest - ${formattedDate}
+
+## Today's Highlights 🌟
+
+### 🚀 Solopreneur Opportunities & Tools
+${news.solopreneur.join('\n')}
+
+### 💡 AI & Tech Breakthroughs
+${news.aiTech.join('\n')}
+
+### 🌏 Japan-Specific Updates
+${news.japan.join('\n')}
+
+### 🔍 Key Insights
+${news.insights.join('\n')}
+
+---
+*Generated with ❤️ by Daily Tech Digest*`;
 };
 
-const uploadDigest = async (path, content) => {
-  const url = `${BASE_URL}/repos/${OWNER}/${REPO}/contents/${path}`;
+const ensureDirectoryExists = async (filePath) => {
+  const dirname = path.dirname(filePath);
+  try {
+    await fs.access(dirname);
+  } catch {
+    await fs.mkdir(dirname, { recursive: true });
+  }
+};
+
+const uploadDigest = async (filePath, content) => {
+  const url = `${BASE_URL}/repos/${OWNER}/${REPO}/contents/${filePath}`;
   const data = {
-    message: `Addday's digest`,
+    message: `Add day's digest: ${new Date().toISOString().split('T')[0]}`,
     content: Buffer.from(content).toString('base64')
   };
 
@@ -46,7 +83,6 @@ const uploadDigest = async (path, content) => {
     });
   } catch (error) {
     if (error.response?.status === 422) {
-      // File exists, get SHA and update
       const existingFile = await axios.get(url, {
         headers: {
           Authorization: `token ${process.env.GITHUB_TOKEN}`,
@@ -80,8 +116,9 @@ const createDigest = async () => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
 
-    // Create or update file
+    // Create directory structure and file
     const filePath = `digests/${year}/${month}/${year}-${month}-${day}.md`;
+    await ensureDirectoryExists(filePath);
     await uploadDigest(filePath, digest);
 
     console.log('Digest created successfully');
