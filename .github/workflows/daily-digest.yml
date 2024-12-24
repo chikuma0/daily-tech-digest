@@ -6,7 +6,7 @@ on:
   workflow_dispatch: # Allows manual trigger
 
 permissions:
-  contents: write # Add explicit permission to write contents
+  contents: write
 
 jobs:
   create-digest:
