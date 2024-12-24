@@ -6,16 +6,20 @@ const OWNER = 'chikuma0';
 const REPO = 'daily-tech-digest';
 
 const gatherNews = async () => {
-  // Implement your news gathering logic here
   const news = {
-    solopreneur: [],
-    aiTech: [],
-    japan: [],
-    insights: []
+    solopreneur: [
+      "* No updates today"
+    ],
+    aiTech: [
+      "* No updates today"
+    ],
+    japan: [
+      "* No updates today"
+    ],
+    insights: [
+      "* No updates today"
+    ]
   };
-
-  // Add your API calls here
-
   return news;
 };
 
@@ -29,14 +33,14 @@ const formatDigest = (news) => {
 const uploadDigest = async (path, content) => {
   const url = `${BASE_URL}/repos/${OWNER}/${REPO}/contents/${path}`;
   const data = {
-    message: `Addday's digest`,
+    message: `Addday's digest`,
     content: Buffer.from(content).toString('base64')
   };
 
   try {
     await axios.put(url, data, {
       headers: {
-        Authorization: `token ${process.env.GITHWB_TOKEN}`,
+        Authorization: `token ${process.env.GITHUB_TOKEN}`,
         Accept: 'application/vnd.github.v3+json'
       }
     });
