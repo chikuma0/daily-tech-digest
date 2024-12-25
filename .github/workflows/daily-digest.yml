@@ -26,5 +26,6 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.NEWS_DIGEST }}
         run: |
+          echo "Token length: ${#GITHUB_TOKEN}"
           mkdir -p digests/$(date +%Y)/$(date +%m)
           node scripts/create-digest.js
