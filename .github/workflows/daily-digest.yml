@@ -20,12 +20,10 @@ jobs:
           
       - name: Install dependencies
         run: |
-          npm install axios dotenv
+          npm install axios
           
       - name: Create Daily Digest
         env: 
-          GITHUB_TOKEN: ${{ secrets.NEWS_DIGEST }}
+          NEWS_DIGEST: ${{ secrets.NEWS_DIGEST }}
         run: |
-          echo "Token length: ${#GITHUB_TOKEN}"
-          mkdir -p digests/$(date +%Y)/$(date +%m)
           node scripts/create-digest.js
