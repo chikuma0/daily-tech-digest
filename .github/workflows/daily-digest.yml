@@ -24,7 +24,7 @@ jobs:
           
       - name: Create Daily Digest
         env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.NEWS_DIGEST }}
         run: |
           mkdir -p digests/$(date +%Y)/$(date +%m)
           node scripts/create-digest.js
