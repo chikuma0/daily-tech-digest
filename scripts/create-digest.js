@@ -69,38 +69,31 @@ const ensureDirectoryExists = async (filePath) => {
 
 const uploadDigest = async (filePath, content) => {
   const url = `${BASE_URL}/repos/${OWNER}/${REPO}/contents/${filePath}`;
-  console.log('Uploading to:', url);
-  console.log('Token exists:', !!process.env.GITHUB_TOKEN);
+  console.log('Debug: Starting upload to:', url);
+  console.log('Debug: Token present:', !!process.env.NEWS_DIGEST);
+  console.log('Debug: Token starts with:', process.env.NEWS_DIGEST ? process.env.NEWS_DIGEST.substring(0, 4) + '...' : 'no token');
+
   const data = {
     message: `Add day's digest: ${new Date().toISOString().split('T')[0]}`,
     content: Buffer.from(content).toString('base64')
   };
 
   try {
-    await axios.put(url, data, {
+    const response = await axios.put(url, data, {
       headers: {
-        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        Authorization: `Bearer ${process.env.NEWS_DIGEST}`,
         Accept: 'application/vnd.github.v3+json'
       }
     });
+    console.log('Debug: Response status:', response.status);
   } catch (error) {
-    if (error.response?.status === 422) {
-      const existingFile = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-          Accept: 'application/vnd.github.v3+json'
-        }
-      });
-      data.sha = existingFile.data.sha;
-      await axios.put(url, data, {
-        headers: {
-          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-          Accept: 'application/vnd.github.v3+json'
-        }
-      });
-    } else {
-      throw error;
-    }
+    console.error('Debug: Full error:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      headers: error.response?.headers
+    });
+    throw error;
   }
 };
 
