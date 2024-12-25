@@ -2,6 +2,7 @@ const axios = require('axios');
 
 const testAuth = async () => {
   console.log('Token exists:', !!process.env.NEWS_DIGEST);
+  console.log('Token length:', process.env.NEWS_DIGEST ? process.env.NEWS_DIGEST.length : 0);
   
   try {
     const response = await axios.put(
@@ -12,16 +13,29 @@ const testAuth = async () => {
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.NEWS_DIGEST}`,
+          Authorization: `token ${process.env.NEWS_DIGEST}`,
           'Content-Type': 'application/json',
+          'Accept': 'application/vnd.github.v3+json',
+          'User-Agent': 'daily-tech-digest'
         }
       }
     );
     console.log('Success:', response.status);
+    return response.status;
   } catch (error) {
-    console.error('Full error:', error.response ? error.response.data : error.message);
+    console.error('Error details:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      headers: error.response?.headers
+    });
     process.exit(1);
   }
 };
 
-testAuth();
+testAuth().then(status => {
+  console.log('Final status:', status);
+}).catch(err => {
+  console.error('Final error:', err);
+  process.exit(1);
+});

@@ -21,12 +21,27 @@ jobs:
           
       - name: Install dependencies
         run: npm install axios
+
+      - name: Debug Environment
+        run: |
+          echo "Node version: $(node -v)"
+          echo "NEWS_DIGEST exists: ${{ secrets.NEWS_DIGEST != '' }}"
+          echo "Working directory: $(pwd)"
+        env:
+          NEWS_DIGEST: ${{ secrets.NEWS_DIGEST }}
           
       - name: Test token
         run: |
-          echo "Token available: ${{ secrets.NEWS_DIGEST != '' }}"
+          echo "Token length: ${#NEWS_DIGEST}"
+          if [ -z "$NEWS_DIGEST" ]; then
+            echo "::error::NEWS_DIGEST token is not set"
+            exit 1
+          fi
+        env:
+          NEWS_DIGEST: ${{ secrets.NEWS_DIGEST }}
           
       - name: Create Daily Digest
         env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEWS_DIGEST: ${{ secrets.NEWS_DIGEST }}
         run: node scripts/create-digest.js
