@@ -2,8 +2,8 @@ name: Daily Tech Digest Update
 
 on: 
   schedule:
-    - cron: "0 1 * * *" # Runs at 1:00 UTC daily
-  workflow_dispatch: # Allows manual trigger
+    - cron: "0 1 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -13,18 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
           
       - name: Install dependencies
+        run: npm install axios
+          
+      - name: Test token
         run: |
-          npm install axios
+          echo "Token available: ${{ secrets.NEWS_DIGEST != '' }}"
           
       - name: Create Daily Digest
         env: 
-          NEWS_DIGEST: ${{ secrets.NEWS_DIGEST }}  # Changed from GITHUB_TOKEN
-        run: |
-          mkdir -p digests/$(date +%Y)/$(date +%m)
-          node scripts/create-digest.js
+          NEWS_DIGEST: ${{ secrets.NEWS_DIGEST }}
+        run: node scripts/create-digest.js
