@@ -69,6 +69,8 @@ const ensureDirectoryExists = async (filePath) => {
 
 const uploadDigest = async (filePath, content) => {
   const url = `${BASE_URL}/repos/${OWNER}/${REPO}/contents/${filePath}`;
+  console.log('Uploading to:', url);
+  console.log('Token exists:', !!process.env.GITHUB_TOKEN);
   const data = {
     message: `Add day's digest: ${new Date().toISOString().split('T')[0]}`,
     content: Buffer.from(content).toString('base64')
@@ -77,7 +79,7 @@ const uploadDigest = async (filePath, content) => {
   try {
     await axios.put(url, data, {
       headers: {
-        Authorization: `token ${process.env.GITHUB_TOKEN}`,
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         Accept: 'application/vnd.github.v3+json'
       }
     });
@@ -85,14 +87,14 @@ const uploadDigest = async (filePath, content) => {
     if (error.response?.status === 422) {
       const existingFile = await axios.get(url, {
         headers: {
-          Authorization: `token ${process.env.GITHUB_TOKEN}`,
+          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
           Accept: 'application/vnd.github.v3+json'
         }
       });
       data.sha = existingFile.data.sha;
       await axios.put(url, data, {
         headers: {
-          Authorization: `token ${process.env.GITHUB_TOKEN}`,
+          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
           Accept: 'application/vnd.github.v3+json'
         }
       });
